@@ -25,6 +25,7 @@ const exampleDinosaurData = require("../data/dinosaurs");
 //First I would have to convert key lengthInMeters to feet by muliplying 3.281 ex dinosaur.lengthInMeters * 3.281
 //this is done by running a loop through example dinasour data
 // once lengthInMeters is converted to feet, run another loop to find the value that is longest and return it
+  //testing 
 function getLongestDinosaur(dinosaurs) {
    let longestLength = 0
    let dinosaur = {}
@@ -70,9 +71,9 @@ function getLongestDinosaur(dinosaurs) {
 function getDinosaurDescription(dinosaurs, id) {
   let response
   for (let i = 0; i < dinosaurs.length; i++) {
-    const choice = dinosaurs[i].mya
+    // const choice = dinosaurs[i].mya
     // console.log(dinosaurs[i].mya.length-1)
-    console.log(choice[choice.length-1])
+    // console.log(choice[choice.length-1])
     if (dinosaurs[i].dinosaurId === id) {
         response =  `${dinosaurs[i].name} (${dinosaurs[i].pronunciation})\n${dinosaurs[i].info} It lived in the ${dinosaurs[i].period} period, over ${dinosaurs[i].mya[dinosaurs]} million years ago.`
         break
