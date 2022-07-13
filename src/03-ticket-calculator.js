@@ -65,7 +65,7 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     return  `Entrant type 'incorrect-entrant' cannot be found.`
   }
   if (ticketInfo.extras[0] === 'incorrect-extra') {
-    return `Extra type does not match an existing extra type`
+    return `Extra type 'incorrect-extra' cannot be found.`
   }
   
     if(ticketInfo.ticketType === 'general'){
@@ -188,25 +188,39 @@ function calculateTicketPrice(ticketData, ticketInfo) {
     //> "Ticket type 'discount' cannot be found."
  */
 function purchaseTickets(ticketData, purchases) {
-  const response = 'Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n'
+  
+  let response = ''
   let totalCost = 0
-  // \n-------------------------------------------\nTOTAL: $175.00
+
+   
   for (let i = 0; i < purchases.length; i++) {
-    for (let j = 0; j < purchases[i].extras.length; j++) {
-      const costOfPurchase = calculateTicketPrice(ticketData, purchases[i]);
-      totalCost += costOfPurchase
-      const formattedCost = (costOfPurchase / 100).toFixed(2);
-      const formattedEntrant = purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1, purchases[i].entrantType - 1)
-      const formattedTicket = purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1, purchases[i].ticketType - 1)
-      let formattedExtras = ''
-      formattedExtras += (purchases[i].extras[j].toUpperCase() + purchases[i].extras[j]) + 'Access,'
-     
-      if (typeof totalCost == 'number') {
-        response += `${formattedEntrant} ${formattedTicket} Admission: $${formattedCost} (Movie Access, Terrace Access)\n`
+    const costOfPurchase = calculateTicketPrice(ticketData, purchases[i]);
+    let extras = purchases[i].extras.slice(0)
+    let arr = []
+    if(typeof costOfPurchase === "string"){
+      return costOfPurchase
+    }
+    totalCost += costOfPurchase
+
+
+
+    for (let extra of extras){
+      if(extras.length > 0){
+        arr.push(ticketData.extras[extra].description)
       }
     }
+
+    
+
+    if(purchases[i].extras.length > 0){
+      response += `${purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)} ${purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)} Admission: $${(costOfPurchase/100).toFixed(2)} (${arr.join(", ")})\n`
+    }else{
+      response += `${purchases[i].entrantType[0].toUpperCase() + purchases[i].entrantType.slice(1)} ${purchases[i].ticketType[0].toUpperCase() + purchases[i].ticketType.slice(1)} Admission: $${(costOfPurchase/100).toFixed(2)}\n`
+    }
+
+
   }
-  return response
+  return `Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n${response}-------------------------------------------\nTOTAL: $${(totalCost / 100).toFixed(2)}`
 }
 
 // Do not change anything below this line.
